@@ -5,8 +5,8 @@ import hashlib
 import os
 
 #set directory to check for duplicates
-directory = '/run/media/extHD/media/music/'
-movedir = '/run/media/extHD/media/music/dups/'
+directory = '/this/path/willbe/checked/'
+movedir = '/ifmoved/itwill/be/here/'
 
 
 #get root and filename from given directory
@@ -29,8 +29,8 @@ def get_hash_do_action(files):
     hash = hashlib.md5(image_file).hexdigest()
     hashfiles.append([root,filename,hash])
     if hash in hashes:
-      #os.remove(root + "/" + filename)
-      os.rename(root + "/" + filename,movedir + filename)
+      os.remove(root + "/" + filename)
+      #os.rename(root + "/" + filename,movedir + filename)
       print "moved: " + root + "/" + filename
     else:
       hashes.append(hash)
