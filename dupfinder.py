@@ -5,9 +5,10 @@ import hashlib
 import os
 
 #set directory to check for duplicates
-directory = '/this/path/willbe/checked/'
-movedir = '/ifmoved/itwill/be/here/'
+directory = '/home/user/Desktop/folder'
+movedir= directory + '/duplicates/'
 
+foldersave = 2 
 
 #get root and filename from given directory
 def get_filepath(dir):
@@ -18,6 +19,24 @@ def get_filepath(dir):
           files.append([root,filename])
   return files
 
+def move():
+      rootSplit = root.split("/")
+      myList = ""
+      for count in range(foldersave + 1):
+        if count == 0:
+          continue
+        myList = rootSplit[-count] + "/" + myList
+
+      movingdir = movedir + myList
+
+      # create new duplicate directory
+      try:
+        os.makedirs(movingdir)
+      except:
+        print()
+
+      os.rename(root + "/" + filename, movingdir + filename)
+      print "duplicate move to: " + movingdir
 
 #get root, filename and hash from given directory
 def get_hash_do_action(files):
@@ -29,12 +48,12 @@ def get_hash_do_action(files):
     hash = hashlib.md5(image_file).hexdigest()
     hashfiles.append([root,filename,hash])
     if hash in hashes:
-      os.remove(root + "/" + filename)
-      #os.rename(root + "/" + filename,movedir + filename)
-      print "moved: " + root + "/" + filename
+
+      #os.remove(root + "/" + filename)
+      move()
+
     else:
       hashes.append(hash)
-  del files
   return hashfiles
 
 files = get_filepath(directory)
